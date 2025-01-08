@@ -1,0 +1,43 @@
+.dropzone {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    .outer {
+        background-color: rgba(black, 0.8);
+        width: 100%;
+        height: 100vh;
+        padding: 40px;
+        z-index: 10;
+        position: relative;
+
+        .inner {
+            width: 100%;
+            height: 100%;
+            border: dashed 3px white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .import {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        color: white;
+
+        p {
+            max-width: 200px;
+            margin: 0;
+        }
+    }
+}

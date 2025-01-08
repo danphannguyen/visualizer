@@ -1,17 +1,19 @@
 import Canvas from "./components/Canvas/Canvas";
-import AudioController from "./utils/AudioController";
+import Landing from "./components/Landing/Landing";
+import Dropzone from "./components/Dropzone/Dropzone";
+import Tracks from "./components/Tracks/Tracks";
+
 
 function App() {
-  const onClick = () => {
-    AudioController.setup();
-  };
+
 
   return (
     <>
-      <button className="play" onClick={onClick}>
-        Play
-      </button>
+      {/* <Landing /> */}
+      <Dropzone />
+      <Tracks />
       <Canvas />
+      
     </>
   );
 }

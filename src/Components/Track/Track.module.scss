@@ -1,0 +1,50 @@
+.track {
+    display: flex;
+    color: var(--white);
+    align-items: center;
+    // margin-bottom: 20px;
+    padding: 10px 0;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: rgba(var(--white), 0.1);
+    }
+
+
+    .order {
+        width: 10%;
+        margin-left: 10px;
+    }
+
+    .title {
+        width: 50%;
+        display: flex;
+        gap: 12px;
+
+        .cover {
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+
+            .trackName {
+                width: 70%;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            .artistName {
+                font-size: 0.8rem;
+                color: grey;
+            }
+        }
+    } 
+}

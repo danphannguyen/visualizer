@@ -1,0 +1,14 @@
+.btn {
+    border: solid 1px var(--white);
+    background-color: transparent;
+    color: var(--white);
+    border-radius: 24px;
+    margin-top: 24px;
+    font-size: 1.2rem;
+    padding: 8px 16px;
+
+    &:hover {
+        color: black;
+        background-color: var(--white);
+    }
+}
