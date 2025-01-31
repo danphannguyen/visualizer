@@ -1,40 +1,40 @@
-import gsap from "gsap";
+import gsap from 'gsap'
 
 class AudioController {
-    constructor() { }
+  constructor() {}
 
-    setup() {
-        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+  setup() {
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)()
 
-        this.audio = new Audio();
-        // this.audio.src = danceTheNight;
-        this.audio.volume = 0.1;
+    this.audio = new Audio()
+    // this.audio.src = danceTheNight;
+    this.audio.volume = 0.1
 
-        this.audioSource = this.ctx.createMediaElementSource(this.audio);
+    this.audioSource = this.ctx.createMediaElementSource(this.audio)
 
-        this.analyserNode = new AnalyserNode(this.ctx, {
-            fftSize: 1024,
-            smoothingTimeConstant: 0.8,
-        });
+    this.analyserNode = new AnalyserNode(this.ctx, {
+      fftSize: 1024,
+      smoothingTimeConstant: 0.8
+    })
 
-        this.fdata = new Uint8Array(this.analyserNode.frequencyBinCount);
+    this.fdata = new Uint8Array(this.analyserNode.frequencyBinCount)
 
-        this.audioSource.connect(this.analyserNode);
-        this.audioSource.connect(this.ctx.destination);
+    this.audioSource.connect(this.analyserNode)
+    this.audioSource.connect(this.ctx.destination)
 
-        
+    gsap.ticker.add(this.tick)
+  }
 
-        gsap.ticker.add(this.tick);
-    }
+  play = src => {
+    console.log(src)
+    this.audio.src = src
+    this.audio.play()
+  }
 
-    play() {
-        this.audio.play();
-    }
-
-    tick = () => {
-        this.analyserNode.getByteFrequencyData(this.fdata);
-    };
+  tick = () => {
+    this.analyserNode.getByteFrequencyData(this.fdata)
+  }
 }
 
-const audioController = new AudioController();
-export default audioController;
+const audioController = new AudioController()
+export default audioController

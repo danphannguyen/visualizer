@@ -1,0 +1,23 @@
+.picker {
+    position: fixed; 
+    top:24px;
+    right:24px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    align-items: flex-end;
+    color: white;
+
+    span {
+        text-transform: uppercase;
+        cursor: pointer;
+        font-weight: bold;
+        opacity: 0.5;
+        padding: 0.25rem;
+        transition: all 0.2s;
+    }
+
+    .current{
+        opacity: 1;
+    }
+}

@@ -1,37 +1,58 @@
+.toggleTracks {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 2;
+}
+
 .wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    width: 100%;
-    height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(black, 0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: all 0.5s;
+
+  &_visible {
     background-color: rgba(black, 0.8);
-    z-index: 20;
+    pointer-events: all;
+    opacity: 1;
+  }
 
-    .tracks {
-        width: 75%;
-        margin: auto;
-        margin-top: 25vh;
+  .tracks {
+    width: 75%;
+    margin: auto;
+    margin-top: 25vh;
 
-        .header {
-            display: flex;
-            color: gray;
-            border-bottom: solid 1px gray;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+    .header {
+      display: flex;
+      color: gray;
+      border-bottom: solid 1px gray;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      padding-left: 10px;
 
-            .order {
-                width: 10%;
-            }
+      .order {
+        width: 10%;
+      }
 
-            .title {
-                width: 50%;
-            }
+      .title {
+        width: 50%;
+      }
 
-            .duration {
-                width: 20%;
-            }
-        }
-
+      .duration {
+        width: 20%;
+      }
     }
+  }
 }

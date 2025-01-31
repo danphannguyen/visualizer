@@ -42,10 +42,9 @@ export default class Line {
 
   update() {
     if (!audioController.fdata) return;
-    console.log(audioController.fdata);
 
     for (let i = 0; i < this.group.children.length; i++) {
-      this.group.children[i].scale.y = 1 + audioController.fdata[i];
+      this.group.children[i].scale.y = audioController.fdata[i] +1;
     }
   }
 }

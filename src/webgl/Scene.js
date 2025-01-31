@@ -1,66 +1,69 @@
-import * as THREE from "three";
-import gsap from "gsap";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
+import * as THREE from 'three'
+import gsap from 'gsap'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 
-import Line from "./objects/Line";
+import Line from './objects/Line'
+import Board from './objects/Board'
 
 class Scene {
-  constructor() {}
+  constructor() { }
 
   setup(canvas) {
-    this.canvas = canvas;
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.canvas = canvas
+    this.width = window.innerWidth
+    this.height = window.innerHeight
+
+    this.currentObject = null
 
     // instantier la logique three.js
-    this.setupScene();
-    this.setupCamera();
-    this.setupRenderer();
-    this.setupControls();
-    this.setupStats();
+    this.setupScene()
+    this.setupCamera()
+    this.setupRenderer()
+    this.setupControls()
+    this.setupStats()
 
-    this.addEvents();
-    this.addObjects();
+    this.addEvents()
+    this.addObjects()
   }
 
   setupControls() {
-    this.controls = new OrbitControls(this.camera, this.canvas);
+    this.controls = new OrbitControls(this.camera, this.canvas)
   }
 
   setupStats() {
-    this.stats = new Stats();
-    document.body.appendChild(this.stats.dom);
+    this.stats = new Stats()
+    document.body.appendChild(this.stats.dom)
   }
 
   addObjects() {
-    // this.geometry = new THREE.BoxGeometry(1, 1, 1);
-    // this.material = new THREE.MeshNormalMaterial();
-    // this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // this.scene.add(this.mesh);
-
     // Line
-    this.line = new Line();
-    this.scene.add(this.line.group);
+    this.line = new Line()
+    // Board
+    this.board = new Board()
+
+    this.camera.position.z = 200
+    this.scene.add(this.line.group)
+    this.currentObject = this.line
   }
 
   onResize = () => {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.width = window.innerWidth
+    this.height = window.innerHeight
 
-    this.camera.aspect = this.width / this.height;
-    this.camera.updateProjectionMatrix();
+    this.camera.aspect = this.width / this.height
+    this.camera.updateProjectionMatrix()
 
-    this.renderer.setSize(this.width, this.height);
-  };
+    this.renderer.setSize(this.width, this.height)
+  }
 
   addEvents() {
-    gsap.ticker.add(this.tick);
-    window.addEventListener("resize", this.onResize);
+    gsap.ticker.add(this.tick)
+    window.addEventListener('resize', this.onResize)
   }
 
   setupScene() {
-    this.scene = new THREE.Scene();
+    this.scene = new THREE.Scene()
   }
 
   setupCamera() {
@@ -69,35 +72,56 @@ class Scene {
       this.width / this.height,
       0.1,
       1000
-    );
+    )
 
-    this.camera.position.z = 5;
+    // this.camera.position.z = 20
   }
 
   setupRenderer() {
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: false,
-    });
+      antialias: false
+    })
 
-    this.renderer.setSize(this.width, this.height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setSize(this.width, this.height)
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  }
+
+  pickerVisualizer(index) {
+    this.scene.remove(this.currentObject.group)
+    switch (index) {
+      case 0:
+        // line
+        this.currentObject = this.line
+        this.camera.position.z = 200
+        break
+
+      case 1:
+        // board
+        this.currentObject = this.board
+        this.camera.position.z = 20
+
+        break
+
+        // Todo Ajouter un Sphere liquide
+
+      default:
+        break
+    }
+    this.scene.add(this.currentObject.group)
   }
 
   tick = (time, deltaTime, frame) => {
-    this.stats.begin();
+    this.stats.begin()
 
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera)
 
-    // this.mesh.rotation.z += 0.01;
-    // this.mesh.rotation.y += 0.01;
-    if (this.line) {
-      this.line.update();
+    if (this.currentObject) {
+      this.currentObject.update()
     }
-
-    this.stats.end();
-  };
+    this.stats.end()
+  }
 }
 
-const scene = new Scene();
-export default scene;
+const scene = new Scene()
+export default scene

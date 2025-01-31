@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
-:root {
-  --white: #ffffff;
-}
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 * {
   box-sizing: border-box;
@@ -11,5 +7,24 @@
 body {
   margin: 0;
   overflow: hidden;
+
   font-family: "Lato", "sans-serif";
+}
+
+.play {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  padding: 10px 0;
+  margin: auto;
+  width: 100px;
+}
+
+button {
+  cursor: pointer;
+}
+
+:root {
+  --white: #ffffff;
 }

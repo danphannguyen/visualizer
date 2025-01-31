@@ -1,50 +1,48 @@
 .track {
+  display: flex;
+  align-items: center;
+  color: white;
+  //   margin-bottom: 20px;
+  padding: 10px 0;
+  padding-left: 10px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: rgba(white, 0.1);
+  }
+
+  .order {
+    width: 10%;
+  }
+
+  .title {
+    width: 50%;
     display: flex;
-    color: var(--white);
-    align-items: center;
-    // margin-bottom: 20px;
-    padding: 10px 0;
-    border-radius: 6px;
+    gap: 12px;
 
-    &:hover {
-        background-color: rgba(var(--white), 0.1);
+    .cover {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 4px;
     }
 
+    .details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-    .order {
-        width: 10%;
-        margin-left: 10px;
+      .trackName {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 300px;
+      }
+
+      .artistName {
+        font-size: 0.8rem;
+        color: gray;
+      }
     }
-
-    .title {
-        width: 50%;
-        display: flex;
-        gap: 12px;
-
-        .cover {
-            height: 40px;
-            width: 40px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .details {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-
-            .trackName {
-                width: 70%;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-
-            .artistName {
-                font-size: 0.8rem;
-                color: grey;
-            }
-        }
-    } 
+  }
 }

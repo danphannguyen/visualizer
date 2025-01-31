@@ -1,31 +1,39 @@
-import s from './Track.module.scss'
+import audioController from "../../utils/AudioController";
+import s from "./Track.module.scss";
 
-const Track = ({ title, cover, duration, artists, index }) => {
+const Track = ({ title, cover, src, duration, artists, index }) => {
+  const getSeconds = () => {
+    const minutes = Math.floor(duration / 60);
+    let seconds = Math.round(duration - minutes * 60);
 
-    const getSeconds = () => {
-        const minutes = Math.floor(duration / 60);
-        const seconds = duration - minutes * 60;
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
 
-        return minutes + ":" + seconds;
-    };
+    return minutes + ":" + seconds;
+  };
 
-    return (
-        <div className={s.track}>
-            <span className={s.order}>{index + 1}</span>
-            <div className={s.title}>
-                <img className={s.cover} src={cover} alt="" />
-                <div className={s.details}>
-                    <span className={s.trackName}>{title}</span>
-                    <span className={s.artistName}>{artists.map((artist, i) => (
-                        <span key={artist + i}>{artist}</span>
-                    ))}</span>
-                </div>
-            </div>
-            <span className={s.duration}>
-                {getSeconds()}
+  const onClick = () => {
+    audioController.play(src);
+  };
+
+  return (
+    <div className={s.track} onClick={onClick}>
+      <span className={s.order}>{index + 1}</span>
+      <div className={s.title}>
+        <img src={cover} alt="" className={s.cover} />
+        <div className={s.details}>
+          <span className={s.trackName}>{title}</span>
+          {artists.map((artist, i) => (
+            <span key={artist + i} className={s.artistName}>
+              {artist}
             </span>
+          ))}
         </div>
-    )
-}
+      </div>
+      <span className={s.duration}>{getSeconds()}</span>
+    </div>
+  );
+};
 
 export default Track;
