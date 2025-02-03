@@ -10,7 +10,11 @@ const VISUALIZERS = [
   {
     name: 'Board',
     index: 1
-  }
+  },
+  {
+    name: 'Logo IUT',
+    index: 2
+  },
 ]
 const Picker = () => {
   const [current, setCurrent] = useState(0)

@@ -26,7 +26,6 @@ class AudioController {
   }
 
   play = src => {
-    console.log(src)
     this.audio.src = src
     this.audio.play()
   }

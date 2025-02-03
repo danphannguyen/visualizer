@@ -2,9 +2,19 @@ import * as THREE from 'three'
 import gsap from 'gsap'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+// Post Processing
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 
 import Line from './objects/Line'
 import Board from './objects/Board'
+import LogoIUT from './objects/LogoIUT';
+import { threshold } from 'three/tsl';
 
 class Scene {
   constructor() { }
@@ -17,14 +27,78 @@ class Scene {
     this.currentObject = null
 
     // instantier la logique three.js
-    this.setupScene()
-    this.setupCamera()
-    this.setupRenderer()
-    this.setupControls()
-    this.setupStats()
+    this.setupScene();
+    this.setupCamera();
+    this.setupRenderer();
+    this.setupControls();
+    this.setupStats();
+    this.setupPostProcessing();
+    this.setupGUI();
 
-    this.addEvents()
-    this.addObjects()
+    this.setupGltfLoader();
+    this.setupTextureLoader();
+
+    this.addEvents();
+    this.addObjects();
+  }
+
+  setupPostProcessing() {
+    this.composer = new EffectComposer(this.renderer);
+    this.renderPass = new RenderPass(this.scene, this.camera);
+
+    this.composer.addPass(this.renderPass);
+
+    this.bloomParams = {
+      threshold: 0,
+      strength: 0.6,
+      radius: 1
+    }
+
+    this.bloomPass = new UnrealBloomPass(new THREE.Vector2(this.width, this.height),0,0,0)
+
+    this.bloomPass.threshold = this.bloomParams.threshold;
+    this.bloomPass.strength = this.bloomParams.strength;
+    this.bloomPass.radius = this.bloomParams.radius;
+
+    this.composer.addPass(this.bloomPass);
+
+    this.afterimagePass = new AfterimagePass(0.90);
+    this.composer.addPass(this.afterimagePass);
+
+    // this.OutputPass = new OutputPass();
+    // this.composer.addPass( this.outputPass );
+
+  }
+
+  setupGUI() {
+    this.gui = new GUI();
+
+    this.bloomFolder = this.gui.addFolder("Bloom");
+    this.bloomFolder.add(this.bloomParams, "threshold", 0, 1).onChange((value) => {
+      this.bloomPass.threshold = value
+    }).listen()
+    this.bloomFolder.add(this.bloomParams, "strength", 0, 1).onChange((value) => {
+      this.bloomPass.strength = value
+    }).listen()
+    this.bloomFolder.add(this.bloomParams, "radius", 0, 1).onChange((value) => {
+      this.bloomPass.radius = value
+    }).listen()
+
+    // const gui = new GUI( { title: 'Damp setting' } );
+    // gui.add( afterimagePass.uniforms[ 'damp' ], 'value', 0, 1 ).step( 0.001 );
+    // gui.add( params, 'enable' );
+
+    this.afterimageFolder = this.gui.addFolder("Damp setting");
+    this.afterimageFolder.add(this.afterimagePass.uniforms['damp'], 'value', 0, 1).step(0.001);
+    // this.afterimageFolder.add( params, 'enable' );
+  }
+
+  setupGltfLoader() {
+    this.gltfLoader = new GLTFLoader()
+  };
+
+  setupTextureLoader() {
+    this.textureLoader = new THREE.TextureLoader();
   }
 
   setupControls() {
@@ -37,10 +111,10 @@ class Scene {
   }
 
   addObjects() {
-    // Line
+    // Import 3D Object
     this.line = new Line()
-    // Board
     this.board = new Board()
+    this.logoIUT = new LogoIUT();
 
     this.camera.position.z = 200
     this.scene.add(this.line.group)
@@ -54,7 +128,8 @@ class Scene {
     this.camera.aspect = this.width / this.height
     this.camera.updateProjectionMatrix()
 
-    this.renderer.setSize(this.width, this.height)
+    this.renderer.setSize(this.width, this.height);
+    this.composer.setSize(this.width, this.height);
   }
 
   addEvents() {
@@ -92,18 +167,31 @@ class Scene {
     switch (index) {
       case 0:
         // line
+        this.bloomParams.strength = 0.6
+        this.bloomPass.strength = 0.6
         this.currentObject = this.line
         this.camera.position.z = 200
         break
 
       case 1:
         // board
+        this.bloomParams.strength = 0.15
+        this.bloomPass.strength = 0.15
         this.currentObject = this.board
         this.camera.position.z = 20
 
         break
 
-        // Todo Ajouter un Sphere liquide
+      case 2:
+        // logo iut
+        this.bloomParams.strength = 0.85
+        this.bloomPass.strength = 0.85
+        this.currentObject = this.logoIUT
+        this.camera.position.z = 5
+
+        break
+
+      // Todo Ajouter un Sphere liquide
 
       default:
         break
@@ -114,7 +202,8 @@ class Scene {
   tick = (time, deltaTime, frame) => {
     this.stats.begin()
 
-    this.renderer.render(this.scene, this.camera)
+    // this.renderer.render(this.scene, this.camera)
+    this.composer.render();   // Le composer prend le relai sur le renderer pour le psot processing
 
     if (this.currentObject) {
       this.currentObject.update()
