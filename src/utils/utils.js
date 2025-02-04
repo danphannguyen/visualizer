@@ -41,9 +41,12 @@ export const fetchMetadata = async (TRACKS, tracks, setTracks) => {
                     title: title || track.name,
                     duration: audio.duration,
                     artists: _artists || [],
-                    album: album || "Unknown Album",
-                    path: track.path,
-                    cover,
+                    album: {
+                      cover_xl: cover,
+                      title: album || "Unknown Album"
+                    },
+                    preview: track.path,
+                    // cover,
                   });
                 },
                 onError: (error) => {
@@ -57,9 +60,11 @@ export const fetchMetadata = async (TRACKS, tracks, setTracks) => {
                     title: track.name,
                     duration: audio.duration,
                     artists: [],
-                    album: "Unknown Album",
-                    path: track.path,
-                    cover,
+                    album: {
+                      cover_xl: cover,
+                      title: album || "Unknown Album"
+                    },
+                    preview: track.path,
                   });
                 },
               });

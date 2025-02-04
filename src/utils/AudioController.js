@@ -7,6 +7,7 @@ class AudioController {
     this.ctx = new (window.AudioContext || window.webkitAudioContext)()
 
     this.audio = new Audio()
+    this.audio.crossOrigin = "anonymous";
     // this.audio.src = danceTheNight;
     this.audio.volume = 0.1
 

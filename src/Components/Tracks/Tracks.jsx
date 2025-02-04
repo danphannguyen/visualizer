@@ -6,6 +6,8 @@ import useStore from "../../utils/store";
 import { fetchMetadata } from "../../utils/utils";
 import TRACKS from "../../utils/TRACKS";
 
+import fetchJsonp from "fetch-jsonp";
+
 const Tracks = () => {
   // permet d'alterner entre true et false pour afficher / cacher le composant
   const [showTracks, setShowTracks] = useState(false);
@@ -18,15 +20,42 @@ const Tracks = () => {
     }
   }, [tracks]);
 
-  // TODO : Slider (infini ou non) pour sélectionner les tracks
-
-  // TODO : Fonction de tri / filtre sur les tracks, par nom, durée...
-
-  // TODO : Récupérer les tracks du store
-
   useEffect(() => {
     fetchMetadata(TRACKS, tracks, setTracks);
   }, []);
+
+  const onKeyDown = (e) => {
+    if (e.keyCode === 13 && e.target.value !== "") {
+
+      const userInput = e.target.value;
+      getSongs(userInput);
+    }
+  }
+
+  const getSongs = async (userInput) => {
+    try {
+      let response = await fetchJsonp(`https://api.deezer.com/search?q=${userInput}&output=jsonp`);
+      console.log('HELLO');
+
+      // Résultat de l'API
+      if(response.ok) {
+        response = await response.json();
+
+        const _tracks = [...tracks];
+
+        response.data.forEach((result) => {
+          _tracks.push(result)
+        });
+
+        setTracks(_tracks)
+      } else {
+        // erreurs
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -52,13 +81,20 @@ const Tracks = () => {
               key={track.title + i}
               title={track.title}
               duration={track.duration}
-              cover={track.cover}
-              artists={track.artists}
-              src={track.path}
+              cover={track.album.cover_xl}
+              // artists={track.artists}
+              src={track.preview}
               index={i}
             />
           ))}
         </div>
+
+        <input
+          type="text"
+          placeholder="Chercher un artiste"
+          className={s.searchInput}
+          onKeyDown={onKeyDown}
+        />
       </section>
     </>
   );

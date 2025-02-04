@@ -14,6 +14,9 @@ import { AfterimagePass } from 'three/addons/postprocessing/AfterimagePass.js';
 import Line from './objects/Line'
 import Board from './objects/Board'
 import LogoIUT from './objects/LogoIUT';
+import Cover from './objects/Cover';
+
+
 import { threshold } from 'three/tsl';
 
 class Scene {
@@ -50,7 +53,7 @@ class Scene {
 
     this.bloomParams = {
       threshold: 0,
-      strength: 0.6,
+      strength: 0.3,
       radius: 1
     }
 
@@ -112,13 +115,14 @@ class Scene {
 
   addObjects() {
     // Import 3D Object
-    this.line = new Line()
-    this.board = new Board()
+    this.line = new Line();
+    this.board = new Board();
     this.logoIUT = new LogoIUT();
+    this.cover = new Cover();
 
-    this.camera.position.z = 200
-    this.scene.add(this.line.group)
-    this.currentObject = this.line
+    this.camera.position.z = 50;
+    this.scene.add(this.cover.group)
+    this.currentObject = this.cover
   }
 
   onResize = () => {
@@ -166,6 +170,14 @@ class Scene {
     this.scene.remove(this.currentObject.group)
     switch (index) {
       case 0:
+        // Cover
+        this.bloomParams.strength = 0.3
+        this.bloomPass.strength = 0.3
+        this.currentObject = this.line
+        this.camera.position.z = 50
+        break
+
+      case 1:
         // line
         this.bloomParams.strength = 0.6
         this.bloomPass.strength = 0.6
@@ -173,7 +185,7 @@ class Scene {
         this.camera.position.z = 200
         break
 
-      case 1:
+      case 2:
         // board
         this.bloomParams.strength = 0.15
         this.bloomPass.strength = 0.15
@@ -182,7 +194,7 @@ class Scene {
 
         break
 
-      case 2:
+      case 3:
         // logo iut
         this.bloomParams.strength = 0.85
         this.bloomPass.strength = 0.85

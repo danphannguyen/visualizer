@@ -4,16 +4,20 @@ import { useState } from 'react'
 
 const VISUALIZERS = [
   {
-    name: 'Line',
+    name: 'Cover',
     index: 0
   },
   {
-    name: 'Board',
+    name: 'Line',
     index: 1
   },
   {
-    name: 'Logo IUT',
+    name: 'Board',
     index: 2
+  },
+  {
+    name: 'Logo IUT',
+    index: 3
   },
 ]
 const Picker = () => {
