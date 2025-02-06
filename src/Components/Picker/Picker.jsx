@@ -19,6 +19,10 @@ const VISUALIZERS = [
     name: 'Logo IUT',
     index: 3
   },
+  {
+    name: 'Bubble',
+    index: 4
+  },
 ]
 const Picker = () => {
   const [current, setCurrent] = useState(0)

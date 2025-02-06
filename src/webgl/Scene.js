@@ -15,9 +15,9 @@ import Line from './objects/Line'
 import Board from './objects/Board'
 import LogoIUT from './objects/LogoIUT';
 import Cover from './objects/Cover';
+import Bubble from './objects/Bubble'
+import audioController from '../utils/AudioController';
 
-
-import { threshold } from 'three/tsl';
 
 class Scene {
   constructor() { }
@@ -106,6 +106,7 @@ class Scene {
 
   setupControls() {
     this.controls = new OrbitControls(this.camera, this.canvas)
+    this.controls.enableDamping = true;
   }
 
   setupStats() {
@@ -119,8 +120,9 @@ class Scene {
     this.board = new Board();
     this.logoIUT = new LogoIUT();
     this.cover = new Cover();
+    this.bubble = new Bubble();
 
-    this.camera.position.z = 50;
+    this.camera.position.z = 10;
     this.scene.add(this.cover.group)
     this.currentObject = this.cover
   }
@@ -203,6 +205,13 @@ class Scene {
 
         break
 
+      case 4:
+        // Bubble
+        this.currentObject = this.bubble
+        this.camera.position.z = 3
+        break
+
+
       // Todo Ajouter un Sphere liquide
 
       default:
@@ -217,8 +226,10 @@ class Scene {
     // this.renderer.render(this.scene, this.camera)
     this.composer.render();   // Le composer prend le relai sur le renderer pour le psot processing
 
-    if (this.currentObject) {
-      this.currentObject.update()
+    this.controls.update()
+
+    if (this.currentObject && audioController.fdata) {
+      this.currentObject.update(time, deltaTime)
     }
     this.stats.end()
   }
