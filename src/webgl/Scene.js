@@ -175,7 +175,7 @@ class Scene {
         // Cover
         this.bloomParams.strength = 0.3
         this.bloomPass.strength = 0.3
-        this.currentObject = this.line
+        this.currentObject = this.cover
         this.camera.position.z = 50
         break
 
