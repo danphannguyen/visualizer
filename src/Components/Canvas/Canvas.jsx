@@ -1,4 +1,3 @@
-import s from "./Canvas.module.scss";
 import scene from "../../webgl/Scene";
 import { useEffect, useRef } from "react";
 
