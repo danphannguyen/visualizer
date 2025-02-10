@@ -1,8 +1,8 @@
-import Canvas from './components/Canvas/Canvas'
-import Landing from './components/Landing/Landing'
-import Dropzone from './components/Dropzone/Dropzone'
-import Tracks from './components/Tracks/Tracks'
-import Picker from './components/Picker/Picker'
+import Canvas from './components/Canvas/Canvas.jsx'
+import Landing from './components/Landing/Landing.jsx'
+import Dropzone from './components/Dropzone/Dropzone.jsx'
+import Tracks from './components/Tracks/Tracks.jsx'
+import Picker from './components/Picker/Picker.jsx'
 
 function App() {
   return (
