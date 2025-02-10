@@ -1,12 +1,12 @@
 import s from "./Canvas.module.scss";
-import Scene from "../../webgl/Scene";
+import scene from "../../webgl/Scene";
 import { useEffect, useRef } from "react";
 
 const Canvas = () => {
   const canvasRef = useRef();
 
   useEffect(() => {
-    Scene.setup(canvasRef.current);
+    scene.setup(canvasRef.current);
   }, []);
 
   return <canvas ref={canvasRef}></canvas>;
