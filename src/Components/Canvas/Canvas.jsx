@@ -1,7 +1,7 @@
 import scene from "../../webgl/Scene";
 import { useEffect, useRef } from "react";
 
-const Canvas = () => {
+export default Canvas = () => {
   const canvasRef = useRef();
 
   useEffect(() => {
@@ -11,4 +11,3 @@ const Canvas = () => {
   return <canvas ref={canvasRef}></canvas>;
 };
 
-export default Canvas;
