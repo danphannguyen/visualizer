@@ -19,7 +19,7 @@ import Bubble from './objects/Bubble'
 import audioController from '../utils/AudioController';
 
 
-class scene {
+class Scene {
   constructor() { }
 
   setup(canvas) {
